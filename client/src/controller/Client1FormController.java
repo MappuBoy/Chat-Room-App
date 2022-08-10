@@ -22,6 +22,7 @@ public class Client1FormController implements Initializable {
     static DataInputStream dataInputStream;
     static DataOutputStream dataOutputStream;
 
+    String messageIn = "";
     @Override
     public void initialize(URL location, ResourceBundle resources) {
       new Thread(new Runnable() {
@@ -32,7 +33,7 @@ public class Client1FormController implements Initializable {
                   dataInputStream=new DataInputStream(socket.getInputStream());
                   dataOutputStream=new DataOutputStream(socket.getOutputStream());
 
-                  String messageIn = "";
+
 
                   while (!messageIn.equals("end")){
                       messageIn=dataInputStream.readUTF();

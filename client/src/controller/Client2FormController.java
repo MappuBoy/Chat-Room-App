@@ -1,4 +1,4 @@
-package client.controller;
+package controller;
 
 import javafx.event.ActionEvent;
 import javafx.scene.control.Label;

@@ -16,53 +16,29 @@ import java.io.IOException;
 public class LoginFormController {
     public AnchorPane root;
     public AnchorPane loginForm;
-    public PasswordField txtPassword;
     public TextField txtUserName;
 
+    static  String username;
+
     public void loginOnAction(ActionEvent actionEvent) throws IOException {
-        if (txtUserName.getText().equalsIgnoreCase("malith") && txtPassword.getText().
-                equalsIgnoreCase("1234")) {
-            new Alert(Alert.AlertType.CONFIRMATION, "Welcome Malith ").show();
-            Parent load=FXMLLoader.load(getClass().getResource("../view/Client1Form.fxml"));
-            Scene scene= new Scene(load);
-            Stage stage=new Stage();
-            stage.setScene(scene);
-            stage.setResizable(false);
-            stage.show();
-
-
-        }
-        else if (txtUserName.getText().equalsIgnoreCase("navod") && txtPassword.getText().
-                equalsIgnoreCase("1235")) {
-            new Alert(Alert.AlertType.CONFIRMATION, "Welcome Navod ").show();
-            Parent load=FXMLLoader.load(getClass().getResource("../view/Client2Form.fxml"));
-            Scene scene= new Scene(load);
-            Stage stage=new Stage();
-            stage.setScene(scene);
-            stage.setResizable(false);
-            stage.show();
-
-
-        }
-        else if (txtUserName.getText().equalsIgnoreCase("pituwara") && txtPassword.getText().
-                equalsIgnoreCase("1236")) {
-            new Alert(Alert.AlertType.CONFIRMATION, "Welcome Pituwara ").show();
-            Parent load=FXMLLoader.load(getClass().getResource("../view/Client3Form.fxml"));
-            Scene scene= new Scene(load);
-            Stage stage=new Stage();
-            stage.setScene(scene);
-            stage.setResizable(false);
-            stage.show();
-
+        username=txtUserName.getText();
+        if (username.equals("")) {
+            new Alert(Alert.AlertType.WARNING, "Please check your Username").showAndWait();
+            clearloginOnAction();
 
         } else {
-            new Alert(Alert.AlertType.WARNING, "Please check your Username and Password").show();
-            clearloginOnAction();
+            Stage stage=(Stage) txtUserName.getScene().getWindow();
+            stage.close();
+            Stage stage1=new Stage();
+            stage1.setScene(new Scene(FXMLLoader.load(getClass().getResource("../view/Client1Form.fxml"))));
+            stage1.setResizable(false);
+            stage1.setTitle(username);
+            stage1.centerOnScreen();
+            stage1.show();
         }
     }
     public void clearloginOnAction() {
         txtUserName.clear();
-        txtPassword.clear();
 
     }
 

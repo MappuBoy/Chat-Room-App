@@ -2,7 +2,6 @@
 
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -15,10 +14,8 @@ import java.net.Socket;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class ServerController implements Initializable {
-    public TextArea textarea;
-    public TextField txtmsg;
-    public Label lbname;
+public class ClientHandler implements Initializable {
+
 
     static ServerSocket serverSocket;
     static DataInputStream dataInputStream;

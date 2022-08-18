@@ -1,53 +1,55 @@
 package server;
 
-import javafx.event.ActionEvent;
-import javafx.fxml.Initializable;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.net.ServerSocket;
+import java.io.*;
 import java.net.Socket;
-import java.net.URL;
-import java.util.ResourceBundle;
+import java.util.ArrayList;
 
-public class ClientHandler implements Initializable {
+public class ClientHandler extends Thread {
 
+    private ArrayList<ClientHandler> clients;
+    private Socket socket;
+    private BufferedReader reader;
+    private PrintWriter writer;
 
-    static ServerSocket serverSocket;
-    static DataInputStream dataInputStream;
-    static DataOutputStream dataOutputStream;
-    static Socket socket;
+    ObjectOutputStream objectOutputStream = null;
+    ObjectInputStream objectInputStream = null;
 
-    String messageIn = "";
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        new Thread(()->{
-            try {
-                serverSocket = new ServerSocket(5000);
-                System.out.println("Server Started Waiting for client! .....");
-                socket=serverSocket.accept();
-                System.out.println("Client Accepted! .......");
+    public ClientHandler(ArrayList<ClientHandler> clients, Socket socket) {
+        try {
+            this.clients = clients;
+            this.socket = socket;
+            this.reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            this.writer = new PrintWriter(socket.getOutputStream(), true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-                dataInputStream=new DataInputStream(socket.getInputStream());
-                dataOutputStream=new DataOutputStream(socket.getOutputStream());
-
-                while (!messageIn.equals("end")){
-                    messageIn=dataInputStream.readUTF();
-                    textarea.appendText("\nClient:" + messageIn.trim()+"\n");
-                }
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }).start();
     }
 
-    public void serchbtn(ActionEvent actionEvent) throws IOException {
-        String text = txtmsg.getText();
-//        System.out.println(text);
-        textarea.appendText("\t\t\t\t\t\t\t\tServer:" +text.trim());
-        dataOutputStream.writeUTF(text);
-        txtmsg.setText("");
+    public void run(){
+        try {
+            String msg;
+            while ((msg = reader.readLine()) != null) {
+                if (msg.equalsIgnoreCase( "exit")) {
+                    return;
+                }
+                for (ClientHandler cl : clients) {
+                    cl.writer.println(msg);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        finally {
+            try {
+                reader.close();
+                writer.close();
+                socket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 

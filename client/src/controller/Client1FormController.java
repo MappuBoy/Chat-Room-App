@@ -152,7 +152,7 @@ public class Client1FormController extends Thread {
 
                     } else {
 
-                        Text text2=new Text(fullMsg+":Me");
+                        Text text2=new Text("Me : "+fullMsg);
                         TextFlow flow2 = new TextFlow(text2);
                         hBox.setAlignment(Pos.BOTTOM_RIGHT);
                         hBox.getChildren().add(flow2);

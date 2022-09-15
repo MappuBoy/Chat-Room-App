@@ -116,7 +116,7 @@ public class Client1FormController extends Thread {
                     } else {
                         hBox.setAlignment(Pos.BOTTOM_RIGHT);
                         hBox.getChildren().add(imageView);
-                        Text text1=new Text(": Me ");
+                        Text text1=new Text("Me :");
                         hBox.getChildren().add(text1);
 
                     }
